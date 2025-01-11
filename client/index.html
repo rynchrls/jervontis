@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- index.html -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Skillura</title>
+    <script>
+      // Define the function globally
+      const scheduleMidnightTask = (callback) => {
+        const checkMidnight = () => {
+          const now = new Date();
+          if (
+            now.getHours() === 0 &&
+            now.getMinutes() === 0 &&
+            now.getSeconds() === 0
+          ) {
+            localStorage.setItem("generates", JSON.stringify(20));
+          }
+        };
+        // Run the check every second
+        setInterval(checkMidnight, 1000);
+      };
+
+      // Check if it's the first visit or if the page was reloaded
+      const isFirstVisit =
+        !document.referrer || performance.navigation.type === 0;
+
+      if (isFirstVisit) {
+        console.log("First visit or direct load!");
+      } else {
+        console.log("Page reloaded or navigated from another page.");
+      }
+
+      // Call the function when the page loads
+      window.onload = () => {
+        scheduleMidnightTask();
+      };
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
