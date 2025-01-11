@@ -94,6 +94,63 @@ function MessageInput({
     }
   };
 
+  const sendMessage = async () => {
+    if (value.trim() === "" || loadingMessage) return;
+    try {
+      setMessages((prev) => [
+        ...prev,
+        { from: "user", message: value },
+        { from: "assistant", message: "" },
+      ]);
+      setValue(""); // Reset the TextField
+      setLoadingMessage(true);
+      const { data } = await generateResponse(value, selectedConvo?._id || cId);
+      if (data.message === "successful") {
+        setTimeout(() => {
+          // setConversation((prev) => [{ ...data?.data?.conversation }, ...prev]);
+          setMessages((prev) => {
+            const filter = prev.filter((obj) => obj.message !== "");
+            return [
+              ...filter,
+              {
+                from: "assistant",
+                message: data?.data?.message.message,
+              },
+            ];
+          });
+          // setSelectedConvo({ ...data?.data?.conversation });
+          setLoadingMessage(false);
+          setAnimate(true);
+          if (cId !== data?.data?.conversation._id)
+            navigate(`/${data?.data?.conversation._id}`);
+        }, 100);
+        const deduct = totalGenerates - 1;
+        localStorage.setItem("generates", JSON.stringify(deduct));
+      }
+    } catch {
+      setTimeout(() => {
+        // setConversation((prev) => [{ ...data?.data?.conversation }, ...prev]);
+        setMessages((prev) => {
+          const filter = prev.filter((obj) => obj.message !== "");
+          return [
+            ...filter,
+            {
+              from: "assistant",
+              message: "Something went wrong!",
+              error: true,
+            },
+          ];
+        });
+        // setSelectedConvo({ ...data?.data?.conversation });
+        setLoadingMessage(false);
+        setAnimate(true);
+        // navigate(`/${data?.data?.conversation._id}`);
+      }, 100);
+      const deduct = totalGenerates - 1;
+      localStorage.setItem("generates", JSON.stringify(deduct));
+    }
+  };
+
   // const handleKeyDown = async (e) => {
   //   if (e.key === "Enter") {
   //     if (!e.shiftKey) {
@@ -270,6 +327,7 @@ function MessageInput({
           />
           {value !== "" && (
             <Box
+              onClick={sendMessage}
               sx={{
                 position: "absolute",
                 right: "12px",
