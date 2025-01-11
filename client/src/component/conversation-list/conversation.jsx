@@ -38,7 +38,7 @@ function Conversation({
     const { data } = await delConvo(convoId);
     if (data?.message === "successful") {
       setConversation((prev) => {
-        if (selectedConvo._id === convoId) {
+        if (selectedConvo?._id === convoId) {
           setSelectedConvo({});
           setMessages([]);
           navigate(`/`, { replace: true });

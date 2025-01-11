@@ -131,7 +131,7 @@ function WelcomePage() {
           },
         }}
       >
-        {open ? "Welcome to the experience" : "Get Started"}
+        {open ? "Click to Start" : "Get Started"}
       </Button>
     </Box>
   );
