@@ -53,8 +53,7 @@ function ChatContainer({
             WebkitTextFillColor: "transparent",
           }}
         >
-          I will share knowledge to the best of my ability. Feel free to ask
-          anything.
+          I will provide knowledge, ask anything.
         </Typography>
       )}
     </Box>
