@@ -56,7 +56,7 @@ function Conversation({
     <Stack
       onClick={selectConversation}
       direction="row"
-      alignItems="start"
+      alignItems="center"
       justifyContent="space-between"
       gap={2}
       sx={{
